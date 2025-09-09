@@ -1,0 +1,19 @@
+
+=== PRODUCT PRICES (AFTER SORTING) ===
+Product #1: $7.99
+Product #2: $9.99
+Product #3: $15.99
+Product #4: $15.99
+Product #5: $29.99
+Product #6: $49.99
+
+=== EXPECTED SORTED ORDER ===
+Expected #1: $7.99
+Expected #2: $9.99
+Expected #3: $15.99
+Expected #4: $15.99
+Expected #5: $29.99
+Expected #6: $49.99
+
+✅ TEST PASSED: Products are correctly sorted from low to high price.
+
