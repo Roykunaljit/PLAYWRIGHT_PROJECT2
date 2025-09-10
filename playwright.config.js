@@ -32,6 +32,9 @@ export default defineConfig({
       outputFolder: 'playwright-report',
       open: 'on-failure'
     }],
+    // 3. JUnit reporter for CI systems like Jenkins.
+    ['junit', { outputFile: 'test-results/junit.xml' }],
+
 
     // 3. JSON reporter for programmatic processing.
     ['json', {
