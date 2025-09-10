@@ -13,6 +13,7 @@ import { defineConfig, devices } from '@playwright/test';
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
+  timeout:60000,
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -24,29 +25,23 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: [
-    // 1. 'list' reporter for detailed terminal output.
+    // 'list' reporter for detailed terminal output.
     ['list'],
 
-    // 2. HTML reporter to generate a self-contained report.
+    // HTML reporter to generate a self-contained report.
     ['html', {
       outputFolder: 'playwright-report',
       open: 'on-failure'
     }],
-    // 3. JUnit reporter for CI systems like Jenkins.
-    ['junit', { outputFile: 'test-results/junit.xml' }],
-
-
-    // 3. JSON reporter for programmatic processing.
+    // JSON reporter for programmatic processing.
     ['json', {
       outputFile: 'test-results/json-report.json'
     }],
-
-    // 4. JUnit reporter for CI systems like Jenkins.
+    // JUnit reporter for CI systems like Jenkins.
     ['junit', {
       outputFile: 'test-results/junit-report.xml'
     }],
-
-    // 5. Allure reporter for rich, interactive reports.
+    // Allure reporter for rich, interactive reports.
     ['allure-playwright', {
       outputFolder: 'allure-results'
     }]
@@ -58,7 +53,7 @@ export default defineConfig({
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on',
         headless: true,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -75,7 +70,18 @@ export default defineConfig({
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { 
+        ...devices['Desktop Firefox'],
+        // This can help if a self-signed certificate or proxy is causing SSL issues.
+        ignoreHTTPSErrors: true,
+        // Add browser-specific launch options for Firefox.
+        launchOptions: {
+          firefoxUserPrefs: {
+            // Force a direct network connection to bypass potential proxy detection issues.
+            'network.proxy.type': 0,
+          },
+        },
+      },
     },
 
     {
@@ -111,4 +117,3 @@ export default defineConfig({
   //   reuseExistingServer: !process.env.CI,
   // },
 });
-

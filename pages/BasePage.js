@@ -4,7 +4,8 @@ class BasePage {
   }
 
   async goto(url) {
-    await this.page.goto(url);
+    await this.page.goto(url, { waitUntil: 'domcontentloaded'});
+    await this.page.waitForLoadState('networkidle');
   }
 
   async goBack() {
